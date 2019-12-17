@@ -17,27 +17,25 @@ public class UserWindow extends JFrame {
 
     public UserWindow(){
         setTitle("飞行棋");
-        setBounds(650, 300, 650, 300);
-        setPreferredSize(new Dimension(650,300));
+        setBounds(300, 0, 650, 300);
+        setPreferredSize(new Dimension(1200,1000));
         Container containPane=getContentPane();
         containPane.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();//建立窗口
 
-        try{
-            map=ImageIO.read(new File("map.jpg"));
-            JPanel image=new JPanel(){
-                public void paint(Graphics2D g){
-                    g.drawImage(map,0,0,200,200,null);
-                }
-            };
-            containPane.add(image);
-        }catch(IOException ioe){
-            System.out.println("打开文件出现问题");
-        }
+        ImagePanel map=new ImagePanel();
+        c.ipadx=0;
+        c.ipady=0;
+        c.gridwidth=650;
+        c.gridheight=650;
+        containPane.add(map,c);
 
 
         pack();
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+    public static void main(String args[]){
+        new UserWindow();
     }
 }
