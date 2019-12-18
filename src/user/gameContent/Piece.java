@@ -1,17 +1,34 @@
 package user.gameContent;
 
+import java.awt.event.PaintEvent;
 import java.util.Dictionary;
 
 public class Piece {
     int position;
+    int order;
     PieceState state;
     String color;
-    Dictionary<Integer,String> weather;//记录地图上的各种效果，例如rainstorm就是经过这个格子的飞机随机飞到某一个地方
+    static Dictionary<Integer,String> weather;//记录地图上的各种效果，例如rainstorm就是经过这个格子的飞机随机飞到某一个地方
 
-    public Piece(String color){
+    public Piece(String color,int order){
         this.color=color;
+        this.order=order;
         position=-1;
         state=PieceState.Stay;
+    }
+    private Piece(int position,int order,PieceState state,String color){//用于clone方法，生成一样信息的棋子
+        this.position=position;
+        this.order=order;
+        this.state=state;
+        this.color=color;
+    }
+    public Piece[] getPieces(String color){
+        return new Piece[]{
+                new Piece(color,0),
+                new Piece(color,1),
+                new Piece(color,2),
+                new Piece(color,3),
+        };
     }
 
     public void setPosition(int position) {
@@ -35,7 +52,6 @@ public class Piece {
     }
 
     public double getDir() {//根据绝对坐标，计算旗子的朝向
-
         return 0;
     }
 
@@ -115,6 +131,6 @@ public class Piece {
         }
     }
     public Piece clone(){
-        return new Piece(color);
+        return new Piece(position,order,state,color);
     }
 }

@@ -1,6 +1,6 @@
 package gameLuncher;
 
-import user.UserWindow;
+import user.OnlineWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +12,7 @@ public class Player extends JFrame implements ActionListener {
     JTextArea inputcode;
     JButton submit;
     JButton register;
+    JButton offline;
     RegisterWindow re;
     String name;
     public Player(){
@@ -75,9 +76,16 @@ public class Player extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //加入对于服务器端的应答
-                new UserWindow();
+                new OnlineWindow();
             }
         });
+
+        offline=new JButton("离线模式");
+        c.gridx=0;
+        c.gridy=9;
+        c.gridwidth=GridBagConstraints.REMAINDER;
+        c.gridheight=1;
+        containPane.add(offline,c);
 
 
         pack();
