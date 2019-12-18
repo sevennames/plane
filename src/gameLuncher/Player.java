@@ -1,5 +1,6 @@
 package gameLuncher;
 
+import user.AIchooser;
 import user.OnlineWindow;
 
 import javax.swing.*;
@@ -81,6 +82,12 @@ public class Player extends JFrame implements ActionListener {
         });
 
         offline=new JButton("离线模式");
+        offline.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AIchooser();
+            }
+        });
         c.gridx=0;
         c.gridy=9;
         c.gridwidth=GridBagConstraints.REMAINDER;

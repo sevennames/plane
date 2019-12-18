@@ -49,6 +49,7 @@ public class AIchooser extends JFrame {
         p4.setBorder(BorderFactory.createTitledBorder("托管AI"));
         bg1.add(goodai1);
         bg1.add(badai1);
+        goodai1.setSelected(true);
         p1.add(goodai1);
         p1.add(badai1);
         goodai1.addActionListener(new ActionListener() {
@@ -68,6 +69,7 @@ public class AIchooser extends JFrame {
 
         bg2.add(goodai2);
         bg2.add(badai2);
+        goodai2.setSelected(true);
         p2.add(goodai2);
         p2.add(badai2);
         goodai2.addActionListener(new ActionListener() {
@@ -87,6 +89,7 @@ public class AIchooser extends JFrame {
 
         bg3.add(goodai3);
         bg3.add(badai3);
+        goodai3.setSelected(true);
         p3.add(goodai3);
         p3.add(badai3);
         goodai3.addActionListener(new ActionListener() {
@@ -106,6 +109,7 @@ public class AIchooser extends JFrame {
 
         bg4.add(goodmyai);
         bg4.add(badmyai);
+        goodmyai.setSelected(true);
         p4.add(goodmyai);
         p4.add(badmyai);
         goodmyai.addActionListener(new ActionListener() {
