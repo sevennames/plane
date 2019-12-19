@@ -1,14 +1,15 @@
-package gameLuncher;
+package user.gameLuncher;
 
-import user.AIchooser;
 import user.OnlineWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Player extends JFrame implements ActionListener {
+public class Player extends JFrame implements ActionListener ,Observer{
     JTextArea inputname;
     JTextArea inputcode;
     JButton submit;
@@ -85,7 +86,9 @@ public class Player extends JFrame implements ActionListener {
         offline.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AIchooser();
+                AIchooser a=new AIchooser();
+                a.messagebox.addObserver(Player.this);
+                setVisible(false);
             }
         });
         c.gridx=0;
@@ -115,9 +118,21 @@ public class Player extends JFrame implements ActionListener {
             re.setVisible(true);
             //加入提交注册信息的代码
         }
+
+    }
+
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(((NotifyBox)o).getOrder()=="AIchooser:Be Visible"){
+            this.setVisible(true);
+            return;
+        }
     }
 
     public static void main(String args[]){
         new Player();
     }
+
 }

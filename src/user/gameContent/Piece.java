@@ -22,7 +22,7 @@ public class Piece {
         this.state=state;
         this.color=color;
     }
-    public Piece[] getPieces(String color){
+    public static Piece[] getPieces(String color){
         return new Piece[]{
                 new Piece(color,0),
                 new Piece(color,1),

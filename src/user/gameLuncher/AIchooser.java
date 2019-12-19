@@ -1,12 +1,14 @@
-package user;
+package user.gameLuncher;
+
+import user.OfflineWindow;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AIchooser extends JFrame {
+    NotifyBox messagebox;
     JButton yes;
     JButton cancel;
     JRadioButton goodai1=new JRadioButton("老实人");
@@ -17,17 +19,20 @@ public class AIchooser extends JFrame {
     JRadioButton badai2=new JRadioButton("缺德佬");
     JRadioButton badai3=new JRadioButton("缺德佬");
     JRadioButton badmyai=new JRadioButton("缺德佬");
+    JComboBox<String> colorChooser;
     public AIchooser(){
         setTitle("飞行棋");
         setBounds(600, 250,0 , 0);
         setPreferredSize(new Dimension(700,500));
         Container containPane=getContentPane();
-        containPane.setLayout(new GridLayout(8,1));
+        containPane.setLayout(new GridLayout(9,1));
         GridBagConstraints c=new GridBagConstraints();
 
-        JLabel title=new JLabel("请选择敌人难度与托管AI行为");
-        JLabel introduce=new JLabel("");
-        JLabel detial=new JLabel("");
+        messagebox=new NotifyBox();
+
+        JLabel title=new JLabel("请选择敌人难度与托管AI行为",JLabel.CENTER);
+        JLabel introduce=new JLabel("",JLabel.CENTER);
+        JLabel detial=new JLabel("",JLabel.CENTER);
         title.setForeground(Color.blue);
         c.gridwidth=GridBagConstraints.HORIZONTAL;
         containPane.add(title);
@@ -133,6 +138,14 @@ public class AIchooser extends JFrame {
         containPane.add(p2,c);
         containPane.add(p3,c);
 
+        colorChooser=new JComboBox<>();
+        colorChooser.addItem("蓝色");
+        colorChooser.addItem("红色");
+        colorChooser.addItem("黄色");
+        colorChooser.addItem("绿色");
+        containPane.add(colorChooser);
+
+
         JPanel select=new JPanel();
         JButton sure=new JButton("确定");
         JButton cancel=new JButton("取消");
@@ -140,11 +153,23 @@ public class AIchooser extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new OfflineWindow();
+                setVisible(false);
+            }
+        });
+        cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                messagebox.setOrder("AIchooser:Be Visible");
+                setVisible(false);
+                messagebox.notifyObservers();
             }
         });
         select.add(sure);
         select.add(cancel);
         containPane.add(select);
+
+
+
 
         pack();
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -153,4 +178,5 @@ public class AIchooser extends JFrame {
     public static void main(String args[]){
         new AIchooser();
     }
+
 }
