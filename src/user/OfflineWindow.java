@@ -89,21 +89,33 @@ public class OfflineWindow extends JFrame implements Observer {
                 ai1= AIFactory.getAI(AI1,redPieces,weather);
                 ai2=AIFactory.getAI(AI2,yellowPieces,weather);
                 ai3=AIFactory.getAI(AI3,greenPieces,weather);
+                ai1.setPofOthers(myPiece, yellowPieces,greenPieces );
+                ai2.setPofOthers(myPiece, redPieces, greenPieces);
+                ai3.setPofOthers(myPiece, redPieces, yellowPieces);
             case "红色":
                 myPiece=redPieces;
                 ai1= AIFactory.getAI(AI1,yellowPieces,weather);
                 ai2=AIFactory.getAI(AI2,greenPieces,weather);
                 ai3=AIFactory.getAI(AI3,bluePieces,weather);
+                ai1.setPofOthers(myPiece, greenPieces,bluePieces );
+                ai2.setPofOthers(myPiece, yellowPieces, bluePieces);
+                ai3.setPofOthers(myPiece, yellowPieces, greenPieces);
             case "黄色":
                 myPiece=yellowPieces;
                 ai1= AIFactory.getAI(AI1,greenPieces,weather);
                 ai2=AIFactory.getAI(AI2,bluePieces,weather);
                 ai3=AIFactory.getAI(AI3,redPieces,weather);
+                ai1.setPofOthers(myPiece, bluePieces, redPieces);
+                ai2.setPofOthers(myPiece, greenPieces, redPieces);
+                ai3.setPofOthers(myPiece, greenPieces, bluePieces);
             case "绿色":
                 myPiece=greenPieces;
                 ai1= AIFactory.getAI(AI1,bluePieces,weather);
                 ai2=AIFactory.getAI(AI2,redPieces,weather);
                 ai3=AIFactory.getAI(AI3,yellowPieces,weather);
+                ai1.setPofOthers(myPiece, redPieces, yellowPieces);
+                ai2.setPofOthers(myPiece, bluePieces, yellowPieces);
+                ai3.setPofOthers(myPiece, bluePieces, redPieces);
         }
 
 

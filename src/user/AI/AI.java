@@ -27,6 +27,12 @@ public abstract class AI {
         this.pof3 = pof3;
     }
 
+    public void setPofOthers(Piece[] pof1,Piece[] pof2,Piece[] pof3){
+        setPof1(pof1);
+        setPof2(pof2);
+        setPof3(pof3);
+    }
+
     public void addTools(String[] tools) {
         for(String t:tools){
             this.tools.add(t);
