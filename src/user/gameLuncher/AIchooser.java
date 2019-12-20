@@ -152,7 +152,31 @@ public class AIchooser extends JFrame {
         sure.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new OfflineWindow();
+                String AI1;
+                String AI2;
+                String AI3;
+                String myAI;
+                if(goodai1.isSelected()){
+                    AI1="goodAI";
+                }else{
+                    AI1="badAI";
+                }
+                if(goodai2.isSelected()){
+                    AI2="goodAI";
+                }else{
+                    AI2="badAI";
+                }
+                if(goodai3.isSelected()){
+                    AI3="goodAI";
+                }else{
+                    AI3="badAI";
+                }
+                if(goodmyai.isSelected()){
+                    myAI="goodAI";
+                }else{
+                    myAI="badAI";
+                }
+                new OfflineWindow(colorChooser.getItemAt(colorChooser.getSelectedIndex()),AI1,AI2,AI3,myAI);
                 setVisible(false);
             }
         });

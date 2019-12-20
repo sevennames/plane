@@ -105,7 +105,7 @@ public class Piece {
         for(int i=0;i<n;i++){
             if(state==PieceState.Flying){
                 moveByStep();
-                Effection.seteffection(weather.get(getAbsolutePosition()),this);
+                //Effection.seteffection(weather.get(getAbsolutePosition()),this);
             }
         }
         //判断是否到达可以横跨的格子
