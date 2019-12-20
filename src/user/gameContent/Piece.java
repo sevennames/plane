@@ -130,6 +130,10 @@ public class Piece {
             position=0;
         }
     }
+    public void pinnedDown(){
+        this.state=PieceState.Stay;
+        this.position=-1;
+    }
     public Piece clone(){
         return new Piece(position,order,state,color);
     }

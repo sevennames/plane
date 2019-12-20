@@ -42,7 +42,7 @@ public abstract class AI {
         this.tools.add(tools);
     }
 
-    public boolean canmove(int points){
+    protected boolean canmove(int points){
         if(points==6){
             return true;
         }
@@ -53,6 +53,11 @@ public abstract class AI {
         }
         return false;
     }
+
+    public Piece[] getMyPiece() {
+        return myPiece;
+    }
+
     public abstract void decision(int points);
 
 }

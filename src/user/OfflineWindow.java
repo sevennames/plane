@@ -147,22 +147,27 @@ public class OfflineWindow extends JFrame implements Observer {
         //以下为放入图片控制窗体
         map.addMouseListener(new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public synchronized void mouseClicked(MouseEvent e) {
                 //得到鼠标坐标;
                 int x=e.getX();
                 int y=e.getY();
                 //判断是哪个棋子，这边就先第一个棋子搞定
                 if(points!=0){
                     myPiece[0].move(points);
+                    doInteraction(0);
                     messageBox.setOrder("OfflineWindow: Stop Counting");
                     messageBox.notifyObservers();
                     points=0;
+                    //map.play
                     showcolor.setText("等待其他人操作");
                     ai1.decision(((int) (Math.random()*6))+1);
+                    doInteraction(1);
                     //map.play()
                     ai2.decision(((int) (Math.random()*6))+1);
+                    doInteraction(2);
                     //map.play()
                     ai3.decision(((int) (Math.random()*6))+1);
+                    doInteraction(3);
                     //map.play();
                     showcolor.setText("你的回合了，请roll点");
                     (new Thread(counting)).start();
@@ -207,6 +212,107 @@ public class OfflineWindow extends JFrame implements Observer {
             ai1.decision(((int) (Math.random()*6))+1);
             ai2.decision(((int) (Math.random()*6))+1);
             ai3.decision(((int) (Math.random()*6))+1);
+        }
+    }
+    private synchronized void doInteraction(int movingPlayer){
+        int pilecount=0;
+        switch(movingPlayer){
+            case 0:
+                for(Piece mp:myPiece){
+                    for(Piece api:ai1.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    for(Piece api:ai2.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    for(Piece api:ai3.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    if(pilecount>1){
+                        mp.pinnedDown();
+                    }
+                }
+            case 1:
+                for(Piece mp:ai1.getMyPiece()){
+                    for(Piece api:myPiece){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    for(Piece api:ai2.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    for(Piece api:ai3.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    if(pilecount>1){
+                        mp.pinnedDown();
+                    }
+                }
+            case 2:
+                for(Piece mp:ai2.getMyPiece()){
+                    for(Piece api:myPiece){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    for(Piece api:ai1.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    for(Piece api:ai3.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    if(pilecount>1){
+                        mp.pinnedDown();
+                    }
+                }
+            case 3:
+                for(Piece mp:ai3.getMyPiece()){
+                    for(Piece api:myPiece){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    for(Piece api:ai1.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    for(Piece api:ai2.getMyPiece()){
+                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            pilecount++;
+                            api.pinnedDown();
+                        }
+                    }
+                    if(pilecount>1){
+                        mp.pinnedDown();
+                    }
+                }
         }
     }
 }
