@@ -17,6 +17,8 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class OfflineWindow extends JFrame implements Observer {
     AI ai1;
     AI ai2;
@@ -181,6 +183,7 @@ public class OfflineWindow extends JFrame implements Observer {
                         return;
                     }
                 }
+                showcolor.setText("您roll到了"+points+"没有roll到6，您不能行动");
                 messageBox.setOrder("OfflineWindow: User has moved");
                 messageBox.notifyObservers();
             }
@@ -194,6 +197,7 @@ public class OfflineWindow extends JFrame implements Observer {
         ImageThread imt=new ImageThread(map,showcolor,myturn);
         (new Thread(imt)).start();
         logical.addListener(imt);
+        imt.addListener(logical);
         map.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

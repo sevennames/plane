@@ -45,9 +45,9 @@ public class LogicThread implements Runnable,Observer{
         }
         @Override
         public void update(Observable o, Object arg) {//自身更新
-            System.out.println("1");
             haschanged=true;
             orders=((NotifyBox)o).getOrder();
+            System.out.println(orders);
         }
 
         @Override
@@ -70,6 +70,7 @@ public class LogicThread implements Runnable,Observer{
                         messageBox.notifyObservers();
                     }else if(orders=="ImagePanel: ai1 has moved"){
                         haschanged=false;
+                        System.out.println("1");
                         ai2.decision((int)((Math.random()*6)+1));
                         doInteraction(2);
                         messageBox.setOrder("LogicThread: ai2 has moved");

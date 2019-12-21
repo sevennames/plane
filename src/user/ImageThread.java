@@ -10,7 +10,7 @@ public class ImageThread implements Runnable, Observer {
     ImagePanel ip;
     boolean ifupdate=false;
     String orders;
-    NotifyBox messageBox;
+    NotifyBox messageBox=new NotifyBox();
     JLabel title;
     boolean turn;
     public ImageThread(ImagePanel ip,JLabel title,boolean myturn){
