@@ -30,7 +30,7 @@ public class OfflineWindow extends JFrame implements Observer {
     boolean myturn=true;
     int points=0;
     NotifyBox messageBox=new NotifyBox();
-    Counting counting;
+    boolean canRoll=true;
     ImagePanel map;
     JLabel information;
     MapDate mapDate;
@@ -167,18 +167,20 @@ public class OfflineWindow extends JFrame implements Observer {
         roll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(myturn==false){
+                if(canRoll==false){
                     return;
                 }
                 points=(int)((Math.random()*6)+1);
                 logical.setPoints(points);
                 if(points==6){
                     showcolor.setText("您roll到了"+points+",请选择您要移动的棋子");
+                    canRoll = false;
                     return;
                 }
                 for(Piece mp:myPiece){
                     if(mp.getState()!=PieceState.Stay&&mp.getState()!=PieceState.CompeleteMission){
                         showcolor.setText("您roll到了"+points+",请选择您要移动的棋子");
+                        canRoll = false;
                         return;
                     }
                 }
@@ -210,11 +212,13 @@ public class OfflineWindow extends JFrame implements Observer {
                 Position position;
                 for (int i=0;i<4;i++){
                     Piece piece = myPiece[i];
-                    if (piece.getState().equals(PieceState.Stay)||piece.getAbsolutePosition()==-1){
-                        position = mapDate.getAirports(piece.getColor(),piece.getOrder());
-                    }else if (piece.getState().equals(PieceState.Ready)){
+                    if (piece.getState().equals(PieceState.Ready)) {
                         position = mapDate.getStart(piece.getColor());
-                    }else {
+                    }
+                    else if (piece.getState().equals(PieceState.Stay)||piece.getAbsolutePosition()==-1){
+                            position = mapDate.getAirports(piece.getColor(),piece.getOrder());
+                    }
+                    else {
                         position = mapDate.getRoad(piece.getAbsolutePosition());
                     }
                     int deltaX = position.getX()+hFix - x + mapDate.getHeight()/2;
@@ -236,6 +240,7 @@ public class OfflineWindow extends JFrame implements Observer {
                         logical.setPoints(points);
                         messageBox.setOrder("OfflineWindow: User has moved");
                         messageBox.notifyObservers();
+                        canRoll = true;
                     }
 //                    myturn=false;
                 }
@@ -260,112 +265,6 @@ public class OfflineWindow extends JFrame implements Observer {
             ai3.decision(((int) (Math.random()*6))+1);
         }else if(Order=="ImageThread: ai3 has moved"){
             information.setText("你的回合了，请roll点");
-        }
-    }
-
-    private synchronized void doInteraction(int movingPlayer){
-        int pilecount=0;
-        switch(movingPlayer){
-            case 0://玩家动
-                for(Piece mp:myPiece){
-                    for(Piece api:ai1.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    for(Piece api:ai2.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    for(Piece api:ai3.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    if(pilecount>1){
-                        mp.pinnedDown();
-                    }
-                }
-                break;
-            case 1://ai1动
-                for(Piece mp:ai1.getMyPiece()){
-                    for(Piece api:myPiece){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    for(Piece api:ai2.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    for(Piece api:ai3.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    if(pilecount>1){
-                        mp.pinnedDown();
-                    }
-                }
-                break;
-            case 2://ai2动
-                for(Piece mp:ai2.getMyPiece()){
-                    for(Piece api:myPiece){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    for(Piece api:ai1.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    for(Piece api:ai3.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    if(pilecount>1){
-                        mp.pinnedDown();
-                    }
-                }
-                break;
-            case 3://ai3动
-                for(Piece mp:ai3.getMyPiece()){
-                    for(Piece api:myPiece){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    for(Piece api:ai1.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    for(Piece api:ai2.getMyPiece()){
-                        if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
-                            pilecount++;
-                            api.pinnedDown();
-                        }
-                    }
-                    if(pilecount>1){
-                        mp.pinnedDown();
-                    }
-                }
-                break;
         }
     }
 }
