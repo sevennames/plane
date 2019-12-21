@@ -237,7 +237,7 @@ public class OfflineWindow extends JFrame implements Observer {
                         messageBox.setOrder("OfflineWindow: User has moved");
                         messageBox.notifyObservers();
                     }
-                    myturn=false;
+//                    myturn=false;
                 }
             }
         });

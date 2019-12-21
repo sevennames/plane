@@ -122,7 +122,7 @@ public class Piece {
         //回到停留状态，或者抵达终点
         if(position-100>0&&position%10==6){
             setState(PieceState.CompeleteMission);
-        }else if (state.equals(PieceState.Stay)){
+        }else if (state.equals(PieceState.Stay)||state.equals(PieceState.Ready)){
             // nothing to do
         }else{
             setState(PieceState.Pause);
