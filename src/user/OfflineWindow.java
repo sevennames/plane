@@ -25,10 +25,12 @@ public class OfflineWindow extends JFrame implements Observer {
     Piece[] myPiece;
     List<Piece> allPiece;
     Dictionary<Integer,String> weather;
+    boolean myturn=true;
     int points=0;
     NotifyBox messageBox=new NotifyBox();
     Counting counting;
     ImagePanel map;
+    JLabel information;
     MapDate mapDate;
     int vFix = -35;
     int hFix = -10;
@@ -42,8 +44,9 @@ public class OfflineWindow extends JFrame implements Observer {
         containPane.setLayout(new GridLayout(1,2));
         mapDate = new MapDate();
         map=new ImagePanel(mapDate);
-
         containPane.add(map);//放入图像化窗体
+
+
         Piece[] bluePieces=Piece.getPieces("blue");
         Piece[] redPieces=Piece.getPieces("red");
         Piece[] yellowPieces=Piece.getPieces("yellow");
@@ -128,7 +131,7 @@ public class OfflineWindow extends JFrame implements Observer {
                 ai3.setPofOthers(myPiece, bluePieces, redPieces);
                 break;
         }
-
+        this.myAI=AIFactory.getAI(myAI,myPiece,weather);
 
         //放入按钮控制窗体
         JPanel control=new JPanel();
@@ -137,28 +140,66 @@ public class OfflineWindow extends JFrame implements Observer {
 
 
         JLabel showcolor=new JLabel("你的回合了，请roll点",SwingConstants.CENTER);
-        showcolor.setFont(new Font("黑体",1,21));
-        counting=new Counting(messageBox);
+        information=showcolor;
+        switch (mycolor){
+            case "蓝色":
+                showcolor.setForeground(Color.blue);
+                break;
+            case "红色":
+                showcolor.setForeground(Color.red);
+                break;
+            case "黄色":
+                showcolor.setForeground(Color.yellow);
+                break;
+            case "绿色":
+                showcolor.setForeground(Color.green);
+                break;
+        }
+        showcolor.setFont(new Font("黑体",1,21));//启动游戏逻辑判断线程
+        LogicThread logical=new LogicThread(ai1, ai2, ai3, this.myAI, showcolor);
+        (new Thread(logical)).start();
+        messageBox.addObserver(logical);
+
         JButton roll=new JButton("Roll!");
+        roll.setFont(new Font("黑体", 0,50));
         roll.setPreferredSize(new Dimension(1,2));
         roll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                points=((int) (Math.random()*6))+1;
-                showcolor.setText("你roll的点数是"+points+"\n选择移动的飞机");
+                if(myturn==false){
+                    return;
+                }
+                points=(int)((Math.random()*6)+1);
+                logical.setPoints(points);
+                if(points==6){
+                    showcolor.setText("您roll到了"+points+",请选择您要移动的棋子");
+                    return;
+                }
+                for(Piece mp:myPiece){
+                    if(mp.getState()!=PieceState.Stay&&mp.getState()!=PieceState.CompeleteMission){
+                        showcolor.setText("您roll到了"+points+",请选择您要移动的棋子");
+                        return;
+                    }
+                }
+                messageBox.setOrder("OfflineWindow: User has moved");
+                messageBox.notifyObservers();
             }
         });
         control.add(showcolor);
-        control.add(counting);
         control.add(roll);
-//        (new Thread(counting)).start();
         containPane.add(control);
 
 
         //以下为放入图片控制窗体
+        ImageThread imt=new ImageThread(map,showcolor,myturn);
+        (new Thread(imt)).start();
+        logical.addListener(imt);
         map.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if(myturn==false){
+                    return;
+                }
                 //得到鼠标坐标;
                 int x=e.getX();
                 int y=e.getY();
@@ -174,57 +215,32 @@ public class OfflineWindow extends JFrame implements Observer {
                         position = mapDate.getRoad(piece.getAbsolutePosition());
                     }
                     int deltaX = position.getX()+hFix - x;
-                    int deltaY = position.getY()+vFix - y;
+                    int deltaY = position.getY()+vFix - y;//计算点击点离哪个棋子最近
                     if (deltaX*deltaX<(mapDate.getWeight()+rFix)*(mapDate.getWeight()+rFix)&&
                     deltaY*deltaY<(mapDate.getHeight()+rFix)*(mapDate.getHeight()+rFix)){
                         movePiece = i;
                         break;
                     }
                 }
-                //判断是哪个棋子，这边就先第一个棋子搞定
+                //判断是哪个棋子
                 if(points!=0 && movePiece!=-1){
-                    myPiece[movePiece].move(points);
-                    doInteraction(0);
-//                    messageBox.setOrder("OfflineWindow: Stop Counting");
-//                    messageBox.notifyObservers();
-                    points=0;
-                    map.repaint();
-                    //map.play
-                    showcolor.setText("等待其他人操作");
-                    ai1.decision(((int) (Math.random()*6))+1);
-                    doInteraction(1);
-                    //map.play()
-                    ai2.decision(((int) (Math.random()*6))+1);
-                    doInteraction(2);
-                    //map.play()
-                    ai3.decision(((int) (Math.random()*6))+1);
-                    doInteraction(3);
-                    //map.play();
-                    showcolor.setText("你的回合了，请roll点");
-//                    (new Thread(counting)).start();
+                    if(myPiece[movePiece].getState()==PieceState.Stay&&points!=6){
+
+                    }else if(myPiece[movePiece].getState()==PieceState.CompeleteMission){
+                        //不能动则不通知逻辑线程对象
+                    }else{
+                        logical.setPoints(points);
+                        messageBox.setOrder("OfflineWindow: User has moved");
+                        messageBox.notifyObservers();
+                    }
                 }
+                myturn=false;
             }
         });
         pack();
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
-        int oo=0;
-        while (oo<4){
-            gameloop();
-        }
-    }
 
-    private void gameloop(){
-        myPiece[0].move(1);
-        System.out.println(myPiece[0].getPosition());
-        System.out.println(myPiece[0].getState());
-        map.repaint();
-        update(getGraphics());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
     @Override
     public void update(Observable o, Object arg) {
@@ -238,13 +254,15 @@ public class OfflineWindow extends JFrame implements Observer {
             ai1.decision(((int) (Math.random()*6))+1);
             ai2.decision(((int) (Math.random()*6))+1);
             ai3.decision(((int) (Math.random()*6))+1);
+        }else if(Order=="ImageThread: ai3 has moved"){
+            information.setText("你的回合了，请roll点");
         }
     }
 
     private synchronized void doInteraction(int movingPlayer){
         int pilecount=0;
         switch(movingPlayer){
-            case 0:
+            case 0://玩家动
                 for(Piece mp:myPiece){
                     for(Piece api:ai1.getMyPiece()){
                         if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
@@ -269,7 +287,7 @@ public class OfflineWindow extends JFrame implements Observer {
                     }
                 }
                 break;
-            case 1:
+            case 1://ai1动
                 for(Piece mp:ai1.getMyPiece()){
                     for(Piece api:myPiece){
                         if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
@@ -294,7 +312,7 @@ public class OfflineWindow extends JFrame implements Observer {
                     }
                 }
                 break;
-            case 2:
+            case 2://ai2动
                 for(Piece mp:ai2.getMyPiece()){
                     for(Piece api:myPiece){
                         if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
@@ -319,7 +337,7 @@ public class OfflineWindow extends JFrame implements Observer {
                     }
                 }
                 break;
-            case 3:
+            case 3://ai3动
                 for(Piece mp:ai3.getMyPiece()){
                     for(Piece api:myPiece){
                         if(api.getAbsolutePosition()==mp.getAbsolutePosition()){

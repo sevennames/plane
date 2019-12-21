@@ -100,6 +100,8 @@ public class Piece {
         //先看飞机棋子能否动，能动设为flying
         if(state==PieceState.Ready||state==PieceState.Pause){
             setState(PieceState.Flying);
+        }else if(state==PieceState.Stay&&n==6){
+            state=PieceState.Ready;
         }
         //先按照点数移动棋子，同时每一次移动判断一下到达点的天气情况
         for(int i=0;i<n;i++){
