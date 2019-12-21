@@ -159,7 +159,6 @@ public class OfflineWindow extends JFrame implements Observer {
         }
         showcolor.setFont(new Font("黑体",1,21));//启动游戏逻辑判断线程
         LogicThread logical=new LogicThread(ai1, ai2, ai3, this.myAI, showcolor);
-        (new Thread(logical)).start();
         messageBox.addObserver(logical);
 
         JButton roll=new JButton("Roll!");
@@ -183,9 +182,10 @@ public class OfflineWindow extends JFrame implements Observer {
                         return;
                     }
                 }
-                showcolor.setText("您roll到了"+points+"没有roll到6，您不能行动");
+
                 messageBox.setOrder("OfflineWindow: User has moved");
                 messageBox.notifyObservers();
+                showcolor.setText("您roll到了"+points+"没有roll到6，您不能行动");
             }
         });
         control.add(showcolor);
@@ -195,7 +195,6 @@ public class OfflineWindow extends JFrame implements Observer {
 
         //以下为放入图片控制窗体
         ImageThread imt=new ImageThread(map,showcolor,myturn);
-        (new Thread(imt)).start();
         logical.addListener(imt);
         imt.addListener(logical);
         map.addMouseListener(new MouseAdapter() {

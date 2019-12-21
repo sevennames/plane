@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class LogicThread implements Runnable,Observer{
+public class LogicThread implements Observer{
 
         AI ai1;
         AI ai2;
@@ -45,48 +45,42 @@ public class LogicThread implements Runnable,Observer{
         }
         @Override
         public void update(Observable o, Object arg) {//自身更新
-            haschanged=true;
             orders=((NotifyBox)o).getOrder();
-            System.out.println(orders);
-        }
-
-        @Override
-        public void run() {
-            while(true){
-                if(haschanged=true){
-                    if(orders=="OfflineWindow: User has moved"){
-                        haschanged=false;
-                        title.setText("您roll到的点数是"+points);
-                        myPiece[Pieceorder].move(points);
-                        doInteraction(0);
-                        messageBox.setOrder("LogicThread: User has moved");
-                        messageBox.notifyObservers();
-                    }else if(orders=="ImagePanel: User has moved"){
-                        haschanged=false;
-                        title.setText("等待对手操作");
-                        ai1.decision((int)((Math.random()*6)+1));
-                        doInteraction(1);
-                        messageBox.setOrder("LogicThread: ai1 has moved");
-                        messageBox.notifyObservers();
-                    }else if(orders=="ImagePanel: ai1 has moved"){
-                        haschanged=false;
-                        System.out.println("1");
-                        ai2.decision((int)((Math.random()*6)+1));
-                        doInteraction(2);
-                        messageBox.setOrder("LogicThread: ai2 has moved");
-                        messageBox.notifyObservers();
-                    }else if(orders=="ImagePanel: ai2 has moved"){
-                        haschanged=false;
-                        ai3.decision((int)((Math.random()*6)+1));
-                        doInteraction(3);
-                        messageBox.setOrder("LogicThread: ai3 has moved");
-                        messageBox.notifyObservers();
-                    }else if(orders=="OfflineWindow: EXIT"){
-                        //结束该线程
-                    }
-                }
+            if(orders=="OfflineWindow: User has moved"){
+                System.out.println("1");
+                haschanged=false;
+                title.setText("您roll到的点数是"+points);
+                myPiece[Pieceorder].move(points);
+                doInteraction(0);
+                messageBox.setOrder("LogicThread: User has moved");
+                messageBox.notifyObservers();
+            }else if(orders=="ImagePanel: User has moved"){
+                haschanged=false;
+                title.setText("等待对手操作");
+                ai1.decision((int)((Math.random()*6)+1));
+                doInteraction(1);
+                messageBox.setOrder("LogicThread: ai1 has moved");
+                messageBox.notifyObservers();
+            }else if(orders=="ImagePanel: ai1 has moved"){
+                haschanged=false;
+                System.out.println("1");
+                ai2.decision((int)((Math.random()*6)+1));
+                doInteraction(2);
+                messageBox.setOrder("LogicThread: ai2 has moved");
+                messageBox.notifyObservers();
+            }else if(orders=="ImagePanel: ai2 has moved"){
+                haschanged=false;
+                ai3.decision((int)((Math.random()*6)+1));
+                doInteraction(3);
+                messageBox.setOrder("LogicThread: ai3 has moved");
+                messageBox.notifyObservers();
+            }else if(orders=="OfflineWindow: EXIT"){
+                //结束该线程
+            }else{
+                haschanged=false;
             }
         }
+
 
         private synchronized void doInteraction(int movingPlayer){
             int pilecount=0;
