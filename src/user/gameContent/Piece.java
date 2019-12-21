@@ -114,7 +114,7 @@ public class Piece {
             position=29;
         }
         //判断到达的位置是否为同色，同色则向前到下一个同色的格子
-        if(position%4==1 && position!=49 &&state==PieceState.Flying){
+        if(position%4==1 && position<49 &&state==PieceState.Flying){
             position+=4;
         }
         //回到停留状态，或者抵达终点
@@ -136,5 +136,9 @@ public class Piece {
     }
     public Piece clone(){
         return new Piece(position,order,state,color);
+    }
+
+    public int getOrder() {
+        return order;
     }
 }

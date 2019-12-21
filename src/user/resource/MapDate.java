@@ -7,38 +7,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-
+import user.Position;
 public class MapDate {
     int weight;
     int height;
     HashMap<String,Position>road;
     HashMap<String,Position>start;
     HashMap<String,HashMap<String,Position>>airports;
-    static class Position{
-        public int x;
-        public int y;
 
-        public Position(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public String toString() {
-            return "Position{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    '}';
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-    }
     static class StatementProcess{
         private final String end = "end";
         private final String start = ":";
@@ -157,7 +133,7 @@ public class MapDate {
 
     public static void main(String[] args) {
         MapDate m = new MapDate();
-        System.out.println(m.getStart().get("blue"));
+        System.out.println(m.getRoad(103));
     }
 
     public int getWeight() {
@@ -168,15 +144,15 @@ public class MapDate {
         return height;
     }
 
-    public HashMap<String, Position> getRoad() {
-        return road;
+    public Position getRoad(int pos) {
+        return road.get(String.valueOf(pos));
     }
 
-    public HashMap<String, Position> getStart() {
-        return start;
+    public Position getStart(String color) {
+        return start.get(color);
     }
 
-    public HashMap<String, HashMap<String, Position>> getAirports() {
-        return airports;
+    public Position getAirports(String color, int Order) {
+        return airports.get(color).get(String.valueOf(Order+1));
     }
 }
