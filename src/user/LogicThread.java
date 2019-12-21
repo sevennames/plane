@@ -47,7 +47,6 @@ public class LogicThread implements Observer{
         public void update(Observable o, Object arg) {//自身更新
             orders=((NotifyBox)o).getOrder();
             if(orders=="OfflineWindow: User has moved"){
-                System.out.println("1");
                 haschanged=false;
                 title.setText("您roll到的点数是"+points);
                 myPiece[Pieceorder].move(points);
@@ -63,7 +62,6 @@ public class LogicThread implements Observer{
                 messageBox.notifyObservers();
             }else if(orders=="ImagePanel: ai1 has moved"){
                 haschanged=false;
-                System.out.println("1");
                 ai2.decision((int)((Math.random()*6)+1));
                 doInteraction(2);
                 messageBox.setOrder("LogicThread: ai2 has moved");

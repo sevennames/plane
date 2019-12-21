@@ -36,7 +36,7 @@ public class OfflineWindow extends JFrame implements Observer {
     MapDate mapDate;
     int vFix = -35;
     int hFix = -10;
-    int rFix = 3;
+    int rFix = 0;
 
     public OfflineWindow(String mycolor,String AI1,String AI2,String AI3,String myAI){
         setTitle("飞行棋");
@@ -217,10 +217,10 @@ public class OfflineWindow extends JFrame implements Observer {
                     }else {
                         position = mapDate.getRoad(piece.getAbsolutePosition());
                     }
-                    int deltaX = position.getX()+hFix - x;
-                    int deltaY = position.getY()+vFix - y;//计算点击点离哪个棋子最近
-                    if (deltaX*deltaX<(mapDate.getWeight()+rFix)*(mapDate.getWeight()+rFix)&&
-                    deltaY*deltaY<(mapDate.getHeight()+rFix)*(mapDate.getHeight()+rFix)){
+                    int deltaX = position.getX()+hFix - x + mapDate.getHeight()/2;
+                    int deltaY = position.getY()+vFix - y + mapDate.getHeight()/2;//计算点击点离哪个棋子最近
+                    if (4*deltaX*deltaX<(mapDate.getWeight()+rFix)*(mapDate.getWeight()+rFix)&&
+                    4*deltaY*deltaY<(mapDate.getHeight()+rFix)*(mapDate.getHeight()+rFix)){
                         movePiece = i;
                         break;
                     }
@@ -232,12 +232,13 @@ public class OfflineWindow extends JFrame implements Observer {
                     }else if(myPiece[movePiece].getState()==PieceState.CompeleteMission){
                         //不能动则不通知逻辑线程对象
                     }else{
+                        logical.setPieceorder(movePiece);
                         logical.setPoints(points);
                         messageBox.setOrder("OfflineWindow: User has moved");
                         messageBox.notifyObservers();
                     }
                 }
-                myturn=false;
+//                myturn=false;
             }
         });
         pack();
