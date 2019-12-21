@@ -30,21 +30,25 @@ public class ImageThread implements Observer {
             ifupdate=false;
             //ImagePanel画图
             ip.repaint();
+            ip.paintImmediately(ip.getBounds());
             messageBox.setOrder("ImagePanel: User has moved");
             messageBox.notifyObservers();
         }else if(orders=="LogicThread: ai1 has moved"){
             ifupdate=false;
             ip.repaint();
+            ip.paintImmediately(ip.getBounds());
             messageBox.setOrder("ImagePanel: ai1 has moved");
             messageBox.notifyObservers();
         }else if(orders=="LogicThread: ai2 has moved"){
             ifupdate=false;
             ip.repaint();
+            ip.paintImmediately(ip.getBounds());
             messageBox.setOrder("ImagePanel: ai2 has moved");
             messageBox.notifyObservers();
         }else if(orders=="LogicThread: ai3 has moved"){
             ifupdate=false;
             ip.repaint();
+            ip.paintImmediately(ip.getBounds());
             title.setText("到你的回合了，请roll点");
             turn=true;
             messageBox.notifyObservers();

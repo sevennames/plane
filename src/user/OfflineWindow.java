@@ -19,7 +19,7 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
-public class OfflineWindow extends JFrame implements Observer {
+public class OfflineWindow extends JFrame implements Observer{
     AI ai1;
     AI ai2;
     AI ai3;
@@ -267,4 +267,5 @@ public class OfflineWindow extends JFrame implements Observer {
             information.setText("你的回合了，请roll点");
         }
     }
+
 }

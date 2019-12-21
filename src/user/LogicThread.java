@@ -56,18 +56,34 @@ public class LogicThread implements Observer{
             }else if(orders=="ImagePanel: User has moved"){
                 haschanged=false;
                 title.setText("等待对手操作");
+                title.paintImmediately(title.getBounds());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ai1.decision((int)((Math.random()*6)+1));
                 doInteraction(1);
                 messageBox.setOrder("LogicThread: ai1 has moved");
                 messageBox.notifyObservers();
             }else if(orders=="ImagePanel: ai1 has moved"){
                 haschanged=false;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ai2.decision((int)((Math.random()*6)+1));
                 doInteraction(2);
                 messageBox.setOrder("LogicThread: ai2 has moved");
                 messageBox.notifyObservers();
             }else if(orders=="ImagePanel: ai2 has moved"){
                 haschanged=false;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ai3.decision((int)((Math.random()*6)+1));
                 doInteraction(3);
                 messageBox.setOrder("LogicThread: ai3 has moved");
