@@ -63,6 +63,13 @@ public class LogicThread implements Observer{
                     e.printStackTrace();
                 }
                 int api=(int)((Math.random()*6)+1);
+                title.setText(ai1.getMyPiece()[0].getColor()+"扔出骰子之后，得到了"+api);
+                title.paintImmediately(title.getBounds());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ai1.decision(api);
                 doInteraction(1);
                 messageBox.setOrder("LogicThread: ai1 has moved");
@@ -75,6 +82,13 @@ public class LogicThread implements Observer{
                     e.printStackTrace();
                 }
                 int api=(int)((Math.random()*6)+1);
+                title.setText(ai2.getMyPiece()[0].getColor()+"扔出骰子之后，得到了"+api);
+                title.paintImmediately(title.getBounds());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ai2.decision(api);
                 doInteraction(2);
                 messageBox.setOrder("LogicThread: ai2 has moved");
@@ -87,6 +101,13 @@ public class LogicThread implements Observer{
                     e.printStackTrace();
                 }
                 int api=(int)((Math.random()*6)+1);
+                title.setText(ai3.getMyPiece()[0].getColor()+"扔出骰子之后，得到了"+api);
+                title.paintImmediately(title.getBounds());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ai3.decision(api);
                 doInteraction(3);
                 messageBox.setOrder("LogicThread: ai3 has moved");
