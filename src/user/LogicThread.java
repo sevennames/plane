@@ -2,6 +2,7 @@ package user;
 
 import user.AI.AI;
 import user.gameContent.Piece;
+import user.gameContent.PieceState;
 import user.gameLuncher.NotifyBox;
 
 import javax.swing.*;
@@ -47,8 +48,6 @@ public class LogicThread implements Observer{
         public void update(Observable o, Object arg) {//自身更新
             orders=((NotifyBox)o).getOrder();
             if(orders=="OfflineWindow: User has moved"){
-                haschanged=false;
-                title.setText("您roll到的点数是"+points);
                 myPiece[Pieceorder].move(points);
                 doInteraction(0);
                 messageBox.setOrder("LogicThread: User has moved");
@@ -56,13 +55,13 @@ public class LogicThread implements Observer{
             }else if(orders=="ImagePanel: User has moved"){
                 haschanged=false;
                 title.setText("等待对手操作");
-                title.paintImmediately(title.getBounds());
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                ai1.decision((int)((Math.random()*6)+1));
+                int api=(int)((Math.random()*6)+1);
+                ai1.decision(api);
                 doInteraction(1);
                 messageBox.setOrder("LogicThread: ai1 has moved");
                 messageBox.notifyObservers();
@@ -73,7 +72,8 @@ public class LogicThread implements Observer{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                ai2.decision((int)((Math.random()*6)+1));
+                int api=(int)((Math.random()*6)+1);
+                ai2.decision(api);
                 doInteraction(2);
                 messageBox.setOrder("LogicThread: ai2 has moved");
                 messageBox.notifyObservers();
@@ -84,14 +84,13 @@ public class LogicThread implements Observer{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                ai3.decision((int)((Math.random()*6)+1));
+                int api=(int)((Math.random()*6)+1);
+                ai3.decision(api);
                 doInteraction(3);
                 messageBox.setOrder("LogicThread: ai3 has moved");
                 messageBox.notifyObservers();
             }else if(orders=="OfflineWindow: EXIT"){
                 //结束该线程
-            }else{
-                haschanged=false;
             }
         }
 
@@ -102,19 +101,19 @@ public class LogicThread implements Observer{
                 case 0://玩家动
                     for(Piece mp:myPiece){
                         for(Piece api:ai1.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai2.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai3.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }
@@ -127,19 +126,20 @@ public class LogicThread implements Observer{
                 case 1://ai1动
                     for(Piece mp:ai1.getMyPiece()){
                         for(Piece api:myPiece){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
+                                System.out.println(mp+"was be pinned down");
                             }
                         }
                         for(Piece api:ai2.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai3.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }
@@ -152,19 +152,20 @@ public class LogicThread implements Observer{
                 case 2://ai2动
                     for(Piece mp:ai2.getMyPiece()){
                         for(Piece api:myPiece){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
+                                System.out.println(mp+"was be pinned down");
                             }
                         }
                         for(Piece api:ai1.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai3.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }
@@ -177,19 +178,20 @@ public class LogicThread implements Observer{
                 case 3://ai3动
                     for(Piece mp:ai3.getMyPiece()){
                         for(Piece api:myPiece){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
+                                System.out.println(mp+"was be pinned down");
                             }
                         }
                         for(Piece api:ai1.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai2.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
                                 pilecount++;
                                 api.pinnedDown();
                             }

@@ -184,8 +184,8 @@ public class AIchooser extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 messagebox.setOrder("AIchooser:Be Visible");
-                setVisible(false);
                 messagebox.notifyObservers();
+                dispose();
             }
         });
         select.add(sure);

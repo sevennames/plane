@@ -4,6 +4,7 @@ import user.AI.AI;
 import user.AI.AIFactory;
 import user.gameContent.Piece;
 import user.gameContent.PieceState;
+import user.gameLuncher.AIchooser;
 import user.gameLuncher.Counting;
 import user.gameLuncher.NotifyBox;
 import user.resource.MapDate;
@@ -28,6 +29,7 @@ public class OfflineWindow extends JFrame implements Observer{
     List<Piece> allPiece;
     Dictionary<Integer,String> weather;
     boolean myturn=true;
+    boolean gamehasend=false;
     int points=0;
     NotifyBox messageBox=new NotifyBox();
     boolean canRoll=true;
@@ -242,7 +244,7 @@ public class OfflineWindow extends JFrame implements Observer{
                         messageBox.notifyObservers();
                         canRoll = true;
                     }
-//                    myturn=false;
+//                  myturn=false;
                 }
             }
         });
@@ -264,7 +266,57 @@ public class OfflineWindow extends JFrame implements Observer{
             ai2.decision(((int) (Math.random()*6))+1);
             ai3.decision(((int) (Math.random()*6))+1);
         }else if(Order=="ImageThread: ai3 has moved"){
+            boolean continuegame=false;
+            for(Piece p:ai1.getMyPiece()){
+                if(p.getPosition()==55){
+                    p.setState(PieceState.CompeleteMission);
+                }
+                if(p.getState()!=PieceState.CompeleteMission){
+                    continuegame=true;
+                }
+            }
+            if(continuegame=false&&gamehasend==false){
+                new GameEnd(ai1.getMyPiece()[0].getColor());
+            }
+            for(Piece p:ai2.getMyPiece()){
+                if(p.getPosition()==55){
+                    p.setState(PieceState.CompeleteMission);
+                }
+                if(p.getState()!=PieceState.CompeleteMission){
+                    continuegame=true;
+                }
+            }
+            if(continuegame=false&&gamehasend==false){
+                new GameEnd(ai2.getMyPiece()[0].getColor());
+            }
+            for(Piece p:ai3.getMyPiece()){
+                if(p.getPosition()==55){
+                    p.setState(PieceState.CompeleteMission);
+                }
+                if(p.getState()!=PieceState.CompeleteMission){
+                    continuegame=true;
+                }
+            }
+            if(continuegame=false&&gamehasend==false){
+                new GameEnd(ai3.getMyPiece()[0].getColor());
+            }
+            for(Piece p:myPiece){
+                if(p.getPosition()==55){
+                    p.setState(PieceState.CompeleteMission);
+                }
+                if(p.getState()!=PieceState.CompeleteMission){
+                    continuegame=true;
+                }
+            }
+            if(continuegame=false&&gamehasend==false){
+                new GameEnd(myPiece[0].getColor());
+            }
+
+
             information.setText("你的回合了，请roll点");
+        }else if(Order=="GameEnd: back to AIChooser"){
+            new AIchooser();
+            dispose();
         }
     }
 
