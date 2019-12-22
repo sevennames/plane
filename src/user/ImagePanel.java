@@ -40,11 +40,16 @@ public class ImagePanel extends JPanel {
                     color = Color.red;
                     break;
             }
-            if (piece.getState().equals(PieceState.Ready)) {
+            if (piece.getState().equals(PieceState.CompeleteMission)){
+                position = mapDate.getAirports(piece.getColor(),piece.getOrder());
+                this.color = this.color.darker();
+            }
+            else if (piece.getState().equals(PieceState.Ready)) {
                 position = mapDate.getStart(piece.getColor());
             }
             else if (piece.getState().equals(PieceState.Stay)||piece.getPosition()==-1){
                 position = mapDate.getAirports(piece.getColor(),piece.getOrder());
+//                System.out.println(piece.getColor()+" "+piece.getOrder()+" "+piece.getState()+" "+ piece.getPosition()+" "+piece.getAbsolutePosition());
             }
             else {
                 position = mapDate.getRoad(piece.getAbsolutePosition());
