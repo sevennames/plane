@@ -230,40 +230,42 @@ public class OfflineWindow extends JFrame implements Observer{
         map.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(myturn==false){
+                if (myturn == false) {
                     return;
                 }
                 //得到鼠标坐标;
-                int x=e.getX();
-                int y=e.getY();
+                int x = e.getX();
+                int y = e.getY();
                 int movePiece = -1;
                 Position position;
-                for (int i=0;i<4;i++){
+                for (int i = 0; i < 4; i++) {
                     Piece piece = myPiece[i];
-                    if (piece.getState().equals(PieceState.Ready)) {
-                        position = mapDate.getStart(piece.getColor());
-                    }
-                    else if (piece.getState().equals(PieceState.Stay)||piece.getAbsolutePosition()==-1){
-                            position = mapDate.getAirports(piece.getColor(),piece.getOrder());
-                    }
-                    else {
-                        position = mapDate.getRoad(piece.getAbsolutePosition());
-                    }
-                    int deltaX = position.getX()+hFix - x + mapDate.getHeight()/2;
-                    int deltaY = position.getY()+vFix - y + mapDate.getHeight()/2;//计算点击点离哪个棋子最近
-                    if (4*deltaX*deltaX<(mapDate.getWeight()+rFix)*(mapDate.getWeight()+rFix)&&
-                    4*deltaY*deltaY<(mapDate.getHeight()+rFix)*(mapDate.getHeight()+rFix)){
-                        movePiece = i;
-                        break;
+                    if (piece.getState().equals(PieceState.CompeleteMission)) {
+                        continue;
+                    } else {
+                        if (piece.getState().equals(PieceState.Ready)) {
+                            position = mapDate.getStart(piece.getColor());
+                        } else if (piece.getState().equals(PieceState.Stay) || piece.getAbsolutePosition() == -1) {
+                            position = mapDate.getAirports(piece.getColor(), piece.getOrder());
+                        } else {
+                            position = mapDate.getRoad(piece.getAbsolutePosition());
+                        }
+                        int deltaX = position.getX() + hFix - x + mapDate.getHeight() / 2;
+                        int deltaY = position.getY() + vFix - y + mapDate.getHeight() / 2;//计算点击点离哪个棋子最近
+                        if (4 * deltaX * deltaX < (mapDate.getWeight() + rFix) * (mapDate.getWeight() + rFix) &&
+                                4 * deltaY * deltaY < (mapDate.getHeight() + rFix) * (mapDate.getHeight() + rFix)) {
+                            movePiece = i;
+                            break;
+                        }
                     }
                 }
                 //判断是哪个棋子
-                if(points!=0 && movePiece!=-1){
-                    if(myPiece[movePiece].getState()==PieceState.Stay&&points!=6){
+                if (points != 0 && movePiece != -1) {
+                    if (myPiece[movePiece].getState() == PieceState.Stay && points != 6) {
 
-                    }else if(myPiece[movePiece].getState()==PieceState.CompeleteMission){
+                    } else if (myPiece[movePiece].getState() == PieceState.CompeleteMission) {
                         //不能动则不通知逻辑线程对象
-                    }else{
+                    } else {
                         logical.setPieceorder(movePiece);
                         logical.setPoints(points);
                         messageBox.setOrder("OfflineWindow: User has moved");
