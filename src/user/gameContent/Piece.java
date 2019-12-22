@@ -120,7 +120,7 @@ public class Piece {
             position+=4;
         }
         //回到停留状态，或者抵达终点
-        if(position-100>0&&position%10==6){
+        if(position==55){
             setState(PieceState.CompeleteMission);
         }else if (state.equals(PieceState.Stay)||state.equals(PieceState.Ready)){
             // nothing to do
