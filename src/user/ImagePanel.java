@@ -42,7 +42,7 @@ public class ImagePanel extends JPanel {
             }
             if (piece.getState().equals(PieceState.CompeleteMission)){
                 position = mapDate.getAirports(piece.getColor(),piece.getOrder());
-                this.color.brighter();
+                this.color = this.color.darker();
             }
             else if (piece.getState().equals(PieceState.Ready)) {
                 position = mapDate.getStart(piece.getColor());
