@@ -119,6 +119,10 @@ public class Piece {
         if(position%4==1 && position<49 &&state==PieceState.Flying){
             position+=4;
         }
+        //再判断一次是否到达横跨格子
+        if(position==17&&state==PieceState.Flying){
+            position=29;
+        }
         //回到停留状态，或者抵达终点
         if(position==55){
             setState(PieceState.CompeleteMission);
