@@ -51,6 +51,7 @@ public class LogicThread implements Observer{
                 myPiece[Pieceorder].move(points);
                 System.out.println(points);
                 doInteraction(0);
+                System.out.println("myPiece"+Pieceorder+"move"+points);//生成报告用
                 messageBox.setOrder("LogicThread: User has moved");
                 messageBox.notifyObservers();
             }else if(orders=="ImagePanel: User has moved"){

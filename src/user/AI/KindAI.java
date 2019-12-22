@@ -23,6 +23,7 @@ public class KindAI extends AI{
                     if(Math.random()<0.5){
                         myp.setState(PieceState.Ready);
                         hasmoved=true;
+                        System.out.println("ai set "+myp.getOrder()+"Ready");//生成报告用
                         break;
                     }else {
                         continue;
@@ -51,6 +52,7 @@ public class KindAI extends AI{
             }
             if(canmove==true){
                 myp.move(points);
+                System.out.println("Kindai "+myPiece[0].getColor()+" move"+myp.getOrder()+" "+points);//生成报告用
                 hasmoved=true;
                 break;
             }
@@ -62,13 +64,20 @@ public class KindAI extends AI{
             for(Piece myp:myPiece){
                 if(myp.getState()==PieceState.Ready||myp.getState()==PieceState.Pause){
                     myp.move(points);
+                    System.out.println("Kindai "+myPiece[0].getColor()+" move"+myp.getOrder()+" "+points);//生成报告用
+                    hasmoved=true;
                     break;
                 }
                 if(myp.getState()==PieceState.Stay&&points==6){
                     myp.setState(PieceState.Ready);
+                    System.out.println("Kindai "+myPiece[0].getColor()+" set"+myp.getOrder()+" Ready");//生成报告用
+                    hasmoved=true;
                     break;
                 }
             }
+        }
+        if(!hasmoved){
+            System.out.println("Kindai "+myPiece[0].getColor()+" get"+points+" but can do nothing");
         }
         hasmoved=false;
     }

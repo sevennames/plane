@@ -42,6 +42,7 @@ public class BadAI extends AI{
                     }
                     if(canmove==true){
                         myp.setState(PieceState.Ready);
+                        System.out.println("badai "+myPiece[0].getColor()+" set"+myp.getOrder()+" Ready");//生成报告用
                         hasmoved=true;
                         break;
                     }else {
@@ -55,6 +56,7 @@ public class BadAI extends AI{
             for(Piece p:pof1){
                 if(testp.getAbsolutePosition()==p.getAbsolutePosition()){
                     myp.move(points);
+                    System.out.println("badai "+myPiece[0].getColor()+" move"+myp.getOrder()+" "+points);//生成报告用
                     hasmoved=true;
                     break;
                 }
@@ -65,6 +67,7 @@ public class BadAI extends AI{
             for(Piece p:pof2){
                 if(testp.getAbsolutePosition()==p.getAbsolutePosition()){
                     myp.move(points);
+                    System.out.println("badai "+myPiece[0].getColor()+" move"+myp.getOrder()+" "+points);//生成报告用
                     hasmoved=true;
                     break;
                 }
@@ -75,6 +78,7 @@ public class BadAI extends AI{
             for(Piece p:pof3){
                 if(testp.getAbsolutePosition()==p.getAbsolutePosition()){
                     myp.move(points);
+                    System.out.println("badai "+myPiece[0].getColor()+" move"+myp.getOrder()+" "+points);//生成报告用
                     hasmoved=true;
                     break;
                 }
@@ -87,13 +91,18 @@ public class BadAI extends AI{
             for(Piece myp:myPiece){//没法缺德到别人,则调动最先能动的一架
                 if(myp.getState()==PieceState.Ready||myp.getState()==PieceState.Pause){
                     myp.move(points);
+                    System.out.println("badai "+myPiece[0].getColor()+" move"+myp.getOrder()+" "+points);//生成报告用
                     break;
                 }
                 if(myp.getState()==PieceState.Stay&&points==6){
                     myp.setState(PieceState.Ready);
+                    System.out.println("badai "+myPiece[0].getColor()+" set"+myp.getOrder()+" Ready");//生成报告用
                     break;
                 }
             }
+        }
+        if(!hasmoved){
+            System.out.println("badai "+myPiece[0].getColor()+" get"+points+" but can do nothing");
         }
         hasmoved=false;
     }

@@ -63,6 +63,7 @@ public class ImageThread implements Observer {
             }
             title.setText("到你的回合了，请roll点");
             turn=true;
+            messageBox.setOrder("ImageThread: ai3 has moved");
             messageBox.notifyObservers();
         }else if(orders=="OfflineWindow: EXIT"){
             //结束该线程

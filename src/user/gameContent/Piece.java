@@ -11,7 +11,6 @@ public class Piece {
     static Dictionary<Integer,String> weather;//记录地图上的各种效果，例如rainstorm就是经过这个格子的飞机随机飞到某一个地方
 
     public Piece(String color,int order){
-        System.out.println(color+order+"was newed");
         this.color=color;
         this.order=order;
         position=-1;
