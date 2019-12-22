@@ -49,6 +49,7 @@ public class LogicThread implements Observer{
             orders=((NotifyBox)o).getOrder();
             if(orders=="OfflineWindow: User has moved"){
                 myPiece[Pieceorder].move(points);
+                System.out.println(points);
                 doInteraction(0);
                 messageBox.setOrder("LogicThread: User has moved");
                 messageBox.notifyObservers();
@@ -120,6 +121,7 @@ public class LogicThread implements Observer{
                         }
                         if(pilecount>1){
                             mp.pinnedDown();
+                            System.out.println(mp+"was be pinned down");
                         }
                     }
                     break;
@@ -146,6 +148,7 @@ public class LogicThread implements Observer{
                         }
                         if(pilecount>1){
                             mp.pinnedDown();
+                            System.out.println(mp+"was be pinned down");
                         }
                     }
                     break;
@@ -172,6 +175,7 @@ public class LogicThread implements Observer{
                         }
                         if(pilecount>1){
                             mp.pinnedDown();
+                            System.out.println(mp+"was be pinned down");
                         }
                     }
                     break;
@@ -198,6 +202,7 @@ public class LogicThread implements Observer{
                         }
                         if(pilecount>1){
                             mp.pinnedDown();
+                            System.out.println(mp+"was be pinned down");
                         }
                     }
                     break;

@@ -142,6 +142,10 @@ public class OfflineWindow extends JFrame implements Observer{
         control.setBorder(BorderFactory.createLineBorder(Color.BLACK,1,true));
         control.setLayout(new GridLayout(4,1));
 
+        JTextArea pointsset=new JTextArea("6");
+        pointsset.setLineWrap(true);
+
+
 
         JLabel showcolor=new JLabel("你的回合了，请roll点",SwingConstants.CENTER);
         information=showcolor;
@@ -172,7 +176,27 @@ public class OfflineWindow extends JFrame implements Observer{
                 if(canRoll==false){
                     return;
                 }
-                points=(int)((Math.random()*6)+1);
+                points=(int)((Math.random()*6)+1);//固定点数测试一下
+                switch (pointsset.getText()){
+                    case "6":
+                        points=6;
+                        break;
+                    case "5":
+                        points=5;
+                        break;
+                    case "4":
+                        points=4;
+                        break;
+                    case "3":
+                        points=3;
+                        break;
+                    case "2":
+                        points=2;
+                        break;
+                    case "1":
+                        points=1;
+                        break;
+                }
                 logical.setPoints(points);
                 if(points==6){
                     showcolor.setText("您roll到了"+points+",请选择您要移动的棋子");
@@ -186,14 +210,16 @@ public class OfflineWindow extends JFrame implements Observer{
                         return;
                     }
                 }
-
                 messageBox.setOrder("OfflineWindow: User has moved");
                 messageBox.notifyObservers();
                 showcolor.setText("您roll到了"+points+"没有roll到6，您不能行动");
             }
         });
+
+
         control.add(showcolor);
         control.add(roll);
+        control.add(pointsset);
         containPane.add(control);
 
 
