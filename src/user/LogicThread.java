@@ -56,6 +56,7 @@ public class LogicThread implements Observer{
             }else if(orders=="ImagePanel: User has moved"){
                 haschanged=false;
                 title.setText("等待对手操作");
+                title.paintImmediately(title.getBounds());
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -101,20 +102,23 @@ public class LogicThread implements Observer{
             switch(movingPlayer){
                 case 0://玩家动
                     for(Piece mp:myPiece){
+                        if (mp.getPosition()==-1){
+                            continue;
+                        }
                         for(Piece api:ai1.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai2.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai3.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
@@ -127,21 +131,24 @@ public class LogicThread implements Observer{
                     break;
                 case 1://ai1动
                     for(Piece mp:ai1.getMyPiece()){
+                        if (mp.getPosition()==-1){
+                            continue;
+                        }
                         for(Piece api:myPiece){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                                 System.out.println(mp+"was be pinned down");
                             }
                         }
                         for(Piece api:ai2.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai3.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
@@ -154,21 +161,24 @@ public class LogicThread implements Observer{
                     break;
                 case 2://ai2动
                     for(Piece mp:ai2.getMyPiece()){
+                        if (mp.getPosition()==-1){
+                            continue;
+                        }
                         for(Piece api:myPiece){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                                 System.out.println(mp+"was be pinned down");
                             }
                         }
                         for(Piece api:ai1.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai3.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
@@ -181,21 +191,24 @@ public class LogicThread implements Observer{
                     break;
                 case 3://ai3动
                     for(Piece mp:ai3.getMyPiece()){
+                        if (mp.getPosition()==-1){
+                            continue;
+                        }
                         for(Piece api:myPiece){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                                 System.out.println(mp+"was be pinned down");
                             }
                         }
                         for(Piece api:ai1.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
                         }
                         for(Piece api:ai2.getMyPiece()){
-                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getState()!= PieceState.Ready){
+                            if(api.getAbsolutePosition()==mp.getAbsolutePosition()&&api.getPosition()!=-1){
                                 pilecount++;
                                 api.pinnedDown();
                             }
